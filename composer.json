@@ -1,0 +1,19 @@
+{
+    "name": "zbkit/z-admin",
+    "description": "z-admin",
+    "authors": [
+        {
+            "name": "zbkit",
+            "email": "nx740@qq.com"
+        }
+    ],
+    "license":"MIT",
+    "require": {
+        "php": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ZAdmin\\": "src"
+        }
+    }
+}
