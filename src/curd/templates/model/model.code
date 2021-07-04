@@ -11,6 +11,30 @@ class {{modelName}} extends TimeModel
 
     protected $deleteTime = {{deleteTime}};
 
+    // // 查询范围
+    // protected $globalScope = ['uid'];
+    // // 查询范围 限制uid
+    // public function scopeUid($query)
+    // {
+    //     if (!isadmin()) {
+    //         $query->where('uid', session('admin.id'));
+    //     }
+    // }
+    // // 写入前 绑定uid
+    // public static function onBeforeWrite($data)
+    // {
+    //     if (!isadmin()) {
+    //         $data->uid = session('admin.id');
+    //     }
+    // }
+    // // 删除前 限制uid
+    // public static function onBeforeDelete($data)
+    // {
+    //     if (!isadmin()) {
+    //         $data->uid = session('admin.id');
+    //     }
+    // }
+
     {{relationList}}
     {{selectList}}
 
