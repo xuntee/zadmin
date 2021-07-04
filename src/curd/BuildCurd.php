@@ -1352,7 +1352,7 @@ class BuildCurd
             }
 
             if (isset($val['extend']) && $val['extend'] == 'isadmin') {
-                $templateValue=  preg_replace('#.$#i', ', isadmin2: true}', $templateValue);
+                $templateValue=  preg_replace('#.$#i', ', isadmin: true}', $templateValue);
             }
             $indexCols .= $this->formatColsRow("{$templateValue},\r");
         }
