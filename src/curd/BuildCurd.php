@@ -44,7 +44,7 @@ class BuildCurd
      *  表前缀
      * @var string
      */
-    protected $tablePrefix = 'ea';
+    protected $tablePrefix = 'za';
 
     /**
      * 主表
