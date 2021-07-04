@@ -274,7 +274,7 @@ class BuildCurd
             }
 
             // 获取表名注释
-            $tableSchema = Db::query("SELECT table_name,table_comment FROM information_schema.TABLES WHERE table_schema = 'easyadmin' AND table_name = '{$this->tablePrefix}{$this->table}'");
+            $tableSchema = Db::query("SELECT table_name,table_comment FROM information_schema.TABLES WHERE table_schema = 'zadmin' AND table_name = '{$this->tablePrefix}{$this->table}'");
             $this->tableComment = (isset($tableSchema[0]['table_comment']) && !empty($tableSchema[0]['table_comment'])) ? $tableSchema[0]['table_comment'] : $this->table;
         } catch (\Exception $e) {
             throw new TableException($e->getMessage());
