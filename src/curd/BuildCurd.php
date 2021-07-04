@@ -1195,7 +1195,7 @@ class BuildCurd
             }
             //扩展类型
             if (isset($val['extend']) && $val['extend'] == 'isadmin') {
-                $addFormList .= '{if !isadmin()}';
+                $addFormList .= '{if isadmin()}';
             }
             $addFormList .= CommonTool::replaceTemplate(
                 $this->getTemplate($templateFile),
@@ -1279,7 +1279,7 @@ class BuildCurd
             }
             //扩展类型
             if (isset($val['extend']) && $val['extend'] == 'isadmin') {
-                $editFormList .= '{if !isadmin()}';
+                $editFormList .= '{if isadmin()}';
             }
             $editFormList .= CommonTool::replaceTemplate(
                 $this->getTemplate($templateFile),
