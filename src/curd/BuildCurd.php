@@ -228,6 +228,12 @@ class BuildCurd
     protected $formTypeArray = ['text', 'image', 'images', 'file', 'files', 'select', 'switch', 'date', 'editor', 'textarea', 'checkbox', 'radio'];
 
     /**
+     * 扩展类型
+     * @var array
+     */
+    protected $formExtendArray = ['isadmin'];
+
+    /**
      * 初始化
      * BuildCurd constructor.
      */
@@ -665,6 +671,15 @@ class BuildCurd
                 } else {
                     $colum['define'] = $define;
                 }
+            }
+        }
+        // 处理扩展类型
+        preg_match('/\[[\s\S]*?\]/i', $string, $formTypeMatch);
+        if (!empty($formTypeMatch) && isset($formTypeMatch[0])) {
+            $colum['comment'] = str_replace($formTypeMatch[0], '', $colum['comment']);
+            $formType = trim(str_replace(']', '', str_replace('[', '', $formTypeMatch[0])));
+            if (in_array($formType, $this->formExtendArray)) {
+                $colum['extend'] = $formType;
             }
         }
 
@@ -1178,7 +1193,10 @@ class BuildCurd
             } elseif (in_array($field, ['remark']) || $val['formType'] == 'textarea') {
                 $templateFile = "view{$this->DS}module{$this->DS}textarea";
             }
-
+            //扩展类型
+            if (isset($val['extend']) && $val['extend'] == 'isadmin') {
+                $addFormList .= '{if !isadmin()}';
+            }
             $addFormList .= CommonTool::replaceTemplate(
                 $this->getTemplate($templateFile),
                 [
@@ -1187,7 +1205,12 @@ class BuildCurd
                     'required' => $this->buildRequiredHtml($val['required']),
                     'value'    => $val['default'],
                     'define'   => $define,
-                ]);
+                ]
+            );
+            //扩展类型
+            if (isset($val['extend']) && $val['extend'] == 'isadmin') {
+                $addFormList .= "\n".'        {/if}';
+            }
         }
         $viewAddValue = CommonTool::replaceTemplate(
             $this->getTemplate("view{$this->DS}form"),
@@ -1254,7 +1277,10 @@ class BuildCurd
                 $templateFile = "view{$this->DS}module{$this->DS}textarea";
                 $value = '{$row.' . $field . '|raw|default=\'\'}';
             }
-
+            //扩展类型
+            if (isset($val['extend']) && $val['extend'] == 'isadmin') {
+                $editFormList .= '{if !isadmin()}';
+            }
             $editFormList .= CommonTool::replaceTemplate(
                 $this->getTemplate($templateFile),
                 [
@@ -1263,7 +1289,12 @@ class BuildCurd
                     'required' => $this->buildRequiredHtml($val['required']),
                     'value'    => $value,
                     'define'   => $define,
-                ]);
+                ]
+            );
+            //扩展类型
+            if (isset($val['extend']) && $val['extend'] == 'isadmin') {
+                $editFormList .= "\n".'        {/if}';
+            }
         }
         $viewEditValue = CommonTool::replaceTemplate(
             $this->getTemplate("view{$this->DS}form"),
@@ -1320,6 +1351,9 @@ class BuildCurd
                 $templateValue = "{field: '{$field}', title: '{$val['comment']}'}";
             }
 
+            if (isset($val['extend']) && $val['extend'] == 'isadmin') {
+                $templateValue=  preg_replace('#.$#i', ', isadmin2: true}', $templateValue);
+            }
             $indexCols .= $this->formatColsRow("{$templateValue},\r");
         }
 
